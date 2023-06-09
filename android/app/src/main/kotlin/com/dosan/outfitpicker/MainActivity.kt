@@ -1,4 +1,4 @@
-package com.dosan.outfit365
+package com.dosan.outfitpicker
 
 import io.flutter.embedding.android.FlutterActivity
 
