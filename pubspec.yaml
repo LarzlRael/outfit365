@@ -41,13 +41,12 @@ dependencies:
   flutter_native_splash: ^2.1.6
   flutter_staggered_grid_view: ^0.6.2
   google_fonts: ^4.0.3
-  
 
 flutter_native_splash:
-  color: '#FF8200'
+  color: '#ffffff'
   image: assets/icons/OutFit365.png
   #branding: assets/branding-development.png
-  color_dark: '#FF8200'
+  color_dark: '#15141b'
   image_dark: assets/icons/OutFit365.png
   #branding_dark: assets/branding-development.png
   android_12:
@@ -79,8 +78,6 @@ flutter_icons:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -94,6 +91,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/icons/
     - google_fonts/montserrat_alternates/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

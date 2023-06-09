@@ -2,13 +2,17 @@ import 'package:go_router/go_router.dart';
 import '../pages/pages.dart';
 
 final appRouter = GoRouter(
-    initialLocation: '/',
+    initialLocation: '/welcome',
     /* refreshListenable: goRouterNotifier, */
     routes: [
       ///* Primera pantalla
       GoRoute(
         path: '/',
         builder: (context, state) => HomePage(),
+      ),
+      GoRoute(
+        path: '/welcome',
+        builder: (context, state) => WelcomePage(),
       ),
       GoRoute(
         path: '/model',

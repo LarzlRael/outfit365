@@ -39,7 +39,7 @@ class AppTheme {
             fontSize: 20,
           ),
         ),
-        colorSchemeSeed: colorList[5],
+        colorSchemeSeed: colorList[6],
         appBarTheme: AppBarTheme(
           titleTextStyle: GoogleFonts.montserratAlternates().copyWith(
             fontSize: 25,
