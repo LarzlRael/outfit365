@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:model_viewer_plus/model_viewer_plus.dart';
+part of './pages.dart';
 
 class ModelViewPage extends StatelessWidget {
   final String? cloth;
