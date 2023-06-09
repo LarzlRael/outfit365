@@ -20,4 +20,8 @@ final appRouter = GoRouter(
           return ModelViewPage();
         },
       ),
+      GoRoute(
+        path: '/pick_outfit',
+        builder: (context, state) => PickOutfitPage(),
+      ),
     ]);

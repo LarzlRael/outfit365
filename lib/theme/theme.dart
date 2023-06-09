@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const colorList = <Color>[
+  Colors.purple,
   Colors.amber,
   Colors.teal,
   Colors.green,
   Colors.red,
-  Colors.purple,
   Colors.deepPurple,
   Colors.orange,
   Colors.pink,
@@ -39,8 +39,9 @@ class AppTheme {
             fontSize: 20,
           ),
         ),
-        colorSchemeSeed: colorList[6],
+        colorSchemeSeed: colorList[0],
         appBarTheme: AppBarTheme(
+          centerTitle: true,
           titleTextStyle: GoogleFonts.montserratAlternates().copyWith(
             fontSize: 25,
             fontWeight: FontWeight.bold,

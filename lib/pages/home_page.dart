@@ -1,13 +1,6 @@
 part of 'pages.dart';
 
 class HomePage extends StatelessWidget {
-  final List<String> cloths = [
-    "assets/animated.glb",
-    "assets/punk_girl.glb",
-    "assets/animated_woman2.glb",
-    "assets/t-shirt.glb",
-  ];
-
   HomePage({super.key});
 
   @override
@@ -35,42 +28,21 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          body: TabBarView(children: [
-            Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 250,
-                    width: 600,
-                    child: ImageGallery(
-                      images: outfitCreatorProvider.state.images,
-                      deleteImage: (path) {
-                        outfitCreatorProvider.deleteImage(path);
-                      },
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final photoPath =
-                          await CamerGalleryServiceImp().selectFromGallery();
-                      if (photoPath == null) return;
-                      /* productProvider.updateProductImage(photoPath); */
-                      outfitCreatorProvider.updateProductImage(photoPath);
-                    },
-                    icon: const Icon(Icons.photo_album),
-                  ),
-                  /* TextButton(
-                    onPressed: () {
-                      context.push('/modelviewer');
-                    },
-                    child: Text('Que fueg'),
-                  ), */
-                ],
+          body: TabBarView(
+            children: [
+              Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    context.push('/pick_outfit');
+                  },
+                  child: Icon(Icons.add),
+                ),
+                body: Container(),
               ),
-            ),
-            Icon(Icons.movie),
-            Icon(Icons.games),
-          ]),
+              Icon(Icons.movie),
+              Icon(Icons.games),
+            ],
+          ),
         ));
   }
 }
@@ -78,7 +50,7 @@ class HomePage extends StatelessWidget {
 Widget tabItem(String title) {
   return Tab(
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      /* padding: EdgeInsets.symmetric(horizontal: 5), */
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         border: Border.all(

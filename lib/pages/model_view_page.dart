@@ -13,20 +13,18 @@ class _ModelViewPageState extends State<ModelViewPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    final imagesSelected = context.read<OutfitCreatorProvider>().state.images;
     return Scaffold(
       body: SafeArea(
         child: Container(
           child: Stack(
             children: [
-              ModelView(cloth: 'assets/animated_woman2.glb'),
+              ModelView(cloth: gerRandomCloth()),
               Positioned(
                 top: 15,
                 left: 15,
                 child: IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
+                  onPressed: context.pop,
                   icon: Icon(
                     Icons.arrow_back_ios,
                     size: 20,
@@ -43,36 +41,35 @@ class _ModelViewPageState extends State<ModelViewPage> {
                   height: size.height * 0.7,
                   child: SingleChildScrollView(
                     child: Column(
-                      children: [1, 2, 3, 4]
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = e;
-                                });
-                              },
-                              child: Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
-                                    color: selectedIndex == e
-                                        ? Colors.orange
-                                        : Colors.transparent,
-                                    width: 1.5,
-                                  ),
-                                ),
-                                margin: EdgeInsets.only(bottom: 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    'https://www.helikon-tex.com/media/catalog/product/cache/4/image/9df78eab33525d08d6e5fb8d27136e95/s/p/sp-pgm-dc-11.jpg',
-                                  ),
-                                ),
+                      children: imagesSelected.map((e) {
+                        var index = imagesSelected.indexOf(e);
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          },
+                          child: Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: selectedIndex == index
+                                    ? Colors.orange
+                                    : Colors.transparent,
+                                width: 2,
                               ),
                             ),
-                          )
-                          .toList(),
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(e),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -99,6 +96,7 @@ class ModelView extends StatelessWidget {
     return Container(
       height: size.height * 0.75,
       child: ModelViewer(
+/*         loading: Loading.lazy, */
         src: cloth!,
         alt: "A 3D model of an astronaut",
         ar: true,

@@ -26,8 +26,14 @@ class WelcomePage extends StatelessWidget {
               ),
               Positioned(
                 top: MediaQuery.of(context).padding.top,
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Image.asset(
+                      'assets/icons/outfit365.png',
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
                     SimpleText(
                       text: appName.toUpperCase(),
                       style: textTheme.titleSmall!.copyWith(
@@ -36,10 +42,6 @@ class WelcomePage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                    ),
-                    Image.asset(
-                      'assets/icons/logo_app.png',
-                      height: 50,
                     ),
                   ],
                 ),
@@ -54,9 +56,9 @@ class WelcomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Change your style',
+                        'Renueva y redefine tu estilo',
                         style: textTheme.titleSmall!.copyWith(
-                          fontSize: 40,
+                          fontSize: 35,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -64,9 +66,9 @@ class WelcomePage extends StatelessWidget {
                       SimpleText(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         text:
-                            'Lest change the style of your Apparence with Outfit 365',
+                            'Cambiemos el estilo de tu apariencia con Outfit 365',
                         style: textTheme.titleSmall!.copyWith(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.white,
                         ),
                       ),
