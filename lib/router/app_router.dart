@@ -15,10 +15,9 @@ final appRouter = GoRouter(
         builder: (context, state) => WelcomePage(),
       ),
       GoRoute(
-        path: '/model',
+        path: '/modelviewer',
         builder: (context, state) {
-          final String cloth = state.extra as String;
-          return ModelViewPage(cloth: cloth);
+          return ModelViewPage();
         },
       ),
     ]);

@@ -89,7 +89,7 @@ class WelcomePage extends StatelessWidget {
                                 ),
                               ),
                               Transform.rotate(
-                                angle: 300 * math.pi / 180,
+                                angle: 315 * math.pi / 180,
                                 child: Icon(
                                   Icons.arrow_forward,
                                   size: 20,

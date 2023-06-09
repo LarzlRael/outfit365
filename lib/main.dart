@@ -16,11 +16,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<ThemeProviderNotifier>(context).appTheme;
-    return MaterialApp.router(
-      title: 'Material App',
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
-      theme: appTheme.getTheme(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => OutfitCreatorProvider()),
+      ],
+      child: MaterialApp.router(
+        title: 'Material App',
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+        theme: appTheme.getTheme(),
+      ),
     );
   }
 }
