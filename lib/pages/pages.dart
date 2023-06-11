@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -17,3 +18,7 @@ part 'model_view_page.dart';
 part 'home_page.dart';
 part 'welcome_page.dart';
 part 'pick_outfit_page.dart';
+part 'makeup_creator.dart';
+
+/* Bottoms naviations items */
+part 'bottom_navigation/makeup_page.dart';

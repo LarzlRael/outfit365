@@ -16,7 +16,9 @@ class _ModelViewPageState extends State<ModelViewPage> {
     final imagesSelected = context.read<OutfitCreatorProvider>().state.images;
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
           child: Stack(
             children: [
               ModelView(cloth: gerRandomCloth()),
@@ -71,6 +73,55 @@ class _ModelViewPageState extends State<ModelViewPage> {
                         );
                       }).toList(),
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Container(
+                  height: size.height * 0.20,
+                  width: size.width * 1,
+                  child: Column(
+                    children: [
+                      /* Text(
+                        "Outfit Creator",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Choose your outfit",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ), */
+                      ListTile(
+                        title: Text(
+                          "Outfit Creator",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          "Choose your outfit",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

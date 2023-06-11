@@ -7,43 +7,55 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final outfitCreatorProvider = context.watch<OutfitCreatorProvider>();
     return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(appName),
-            backgroundColor: Colors.white,
-            elevation: 0,
-            bottom: TabBar(
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.orange,
-              indicatorSize: TabBarIndicatorSize.label,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.orange,
-              ),
-              tabs: [
-                tabItem("Shop Men"),
-                tabItem("Show Woman"),
-                tabItem("Shop kids"),
-              ],
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(appName),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          bottom: TabBar(
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.orange,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.orange,
             ),
-          ),
-          body: TabBarView(
-            children: [
-              Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    context.push('/pick_outfit');
-                  },
-                  child: Icon(Icons.add),
-                ),
-                body: Container(),
-              ),
-              Icon(Icons.movie),
-              Icon(Icons.games),
+            tabs: [
+              tabItem("Outfits"),
+              tabItem("Maquillaje"),
+              tabItem("Buscar ropa y maquillaje"),
             ],
           ),
-        ));
+        ),
+        body: TabBarView(
+          children: [
+            Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  context.push('/pick_outfit');
+                },
+                child: Icon(Icons.add),
+              ),
+              body: Container(
+                padding: const EdgeInsets.all(15.0),
+                width: double.infinity,
+                child: AlignedGridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 25,
+                  itemCount: registerOptions(context).length,
+                  itemBuilder: (context, index) =>
+                      registerOptions(context)[index],
+                ),
+              ),
+            ),
+            MakeupPage(),
+            Icon(Icons.games),
+          ],
+        ),
+      ),
+    );
   }
 }
 

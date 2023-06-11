@@ -23,3 +23,5 @@ samples, guidance on mobile development, and a full API reference.
 
 - flutter pub run flutter_native_splash:create
 
+# build adb version
+flutter build appbundle
