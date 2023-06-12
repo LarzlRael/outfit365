@@ -11,14 +11,24 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  LatLng? _currentPosition;
+  late LatLng _currentPosition;
   late GoogleMapController mapController;
+  Set<Marker> _markers = {};
+  final List<String> places = [
+    'zapatos',
+    'maquillaje',
+    'ropa de mujer',
+    'lenceria',
+  ];
+  late String selectedPlace;
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     permisionRequest();
     getLocation();
-    selectedPlace = places[0];
+    selectedPlace = "zapatos";
   }
 
   void permisionRequest() async {
@@ -39,22 +49,14 @@ class MapSampleState extends State<MapSample> {
 
     setState(() {
       _currentPosition = location;
-      /* _isLoading = false; */
+      _isLoading = false;
     });
   }
 
-  Set<Marker> _markers = {};
-  final List<String> places = [
-    'zapatos',
-    'maquillaje',
-    'ropa de mujer',
-    'lenceria',
-  ]; // Option 2
-  late String selectedPlace; // Option 2
   void addMarker() {
     Marker newMarker = Marker(
       markerId: MarkerId('marker_id'),
-      position: _currentPosition!,
+      position: _currentPosition,
       infoWindow: InfoWindow(
           title: 'Título del marcador', snippet: 'Descripción del marcador'),
       // Otros atributos opcionales como icono personalizado, etc.
@@ -67,7 +69,21 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentPosition == null
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.pin_drop),
+        onPressed: () {
+          mapController.animateCamera(
+            CameraUpdate.newLatLngZoom(
+              LatLng(_currentPosition.latitude, _currentPosition.longitude),
+              17,
+            ),
+          );
+        },
+      ),
+      appBar: AppBar(
+        title: const Text('Buscar en el mapa'),
+      ),
+      body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -76,16 +92,12 @@ class MapSampleState extends State<MapSample> {
                 GoogleMap(
                   mapType: MapType.normal,
                   /* set marker */
+
                   markers: _markers,
-                  initialCameraPosition: _currentPosition != null
-                      ? CameraPosition(
-                          target: _currentPosition!,
-                          zoom: 16,
-                        )
-                      : const CameraPosition(
-                          target: LatLng(0, 0),
-                          zoom: 16,
-                        ),
+                  initialCameraPosition: CameraPosition(
+                    target: _currentPosition,
+                    zoom: 16,
+                  ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                     mapController = controller;
@@ -93,47 +105,37 @@ class MapSampleState extends State<MapSample> {
                 ),
                 Positioned(
                   top: MediaQuery.of(context).padding.top + 20,
-                  child: DropdownButton(
-                    value: selectedPlace,
-                    items: places.map((String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (option) async {
-                      print(option);
-                      setState(() {
-                        selectedPlace = option!;
-                      });
-                      await getStoresAround();
-                    },
+                  left: 10,
+                  child: Row(
+                    children: [
+                      Card(
+                        child: DropdownButton(
+                          value: selectedPlace,
+                          items: places
+                              .map(
+                                (value) => DropdownMenuItem(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(value.toCapitalize()),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (option) async {
+                            print(option);
+                            setState(() {
+                              selectedPlace = option!;
+                            });
+                            await getStoresAround();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-      floatingActionButton: Column(
-        children: [
-          FloatingActionButton(
-            child: const Icon(Icons.pin_drop),
-            onPressed: () {
-              mapController.animateCamera(
-                CameraUpdate.newLatLngZoom(
-                  LatLng(
-                      _currentPosition!.latitude, _currentPosition!.longitude),
-                  17,
-                ),
-              );
-            },
-          ),
-          FloatingActionButton(
-            onPressed: () async {
-              await getStoresAround();
-            },
-            child: const Icon(Icons.search),
-          )
-        ],
-      ),
     );
   }
 
@@ -153,8 +155,9 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future<void> getStoresAround() async {
+    final googleMapApiKey = Enviroment.googleMapsApiKey;
     String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition!.latitude},${_currentPosition!.longitude}&radius=500&keyword=${selectedPlace}&key=AIzaSyAC6Xr2EAl6tsoR3_CsWqqGYYAM3SCR9xA";
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition.latitude},${_currentPosition.longitude}&radius=500&keyword=${selectedPlace}&key=${googleMapApiKey}";
 
     final uri = Uri.parse(url);
     var response = await http.get(uri);
@@ -174,7 +177,7 @@ class MapSampleState extends State<MapSample> {
         _markers.add(
           Marker(
             markerId: MarkerId('marker_id'),
-            position: _currentPosition!,
+            position: _currentPosition,
             infoWindow: InfoWindow(
                 title: 'Título del marcador',
                 snippet: 'Descripción del marcador'),

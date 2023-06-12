@@ -48,7 +48,7 @@ dependencies:
   permission_handler: ^10.3.0
   geolocator: ^9.0.2
   http: ^0.13.4
-  
+  flutter_dotenv: ^5.1.0
 
 flutter_native_splash:
   color: '#ffffff'

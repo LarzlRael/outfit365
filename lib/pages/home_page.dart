@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             tabs: [
               tabItem("Outfits"),
               tabItem("Maquillaje"),
-              tabItem("Tiendas de ropa y maquillaje"),
+              tabItem("Ropa y maquillaje"),
             ],
           ),
         ),
@@ -78,14 +78,16 @@ Widget tabItem(String title) {
       ),
       child: Align(
         alignment: Alignment.center,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            /* color: Colors.white, */
+        child: Flexible(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              /* color: Colors.white, */
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ),
     ),

@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:outfilt/provider/providers.dart';
 import 'package:outfilt/router/app_router.dart';
 import 'package:provider/provider.dart';
+import 'constants/enviroments.dart';
 
-void main() => runApp(
-      ChangeNotifierProvider(
-        create: (_) => ThemeProviderNotifier(),
-        child: const MyApp(),
-      ),
-    );
+void main() async {
+  await Enviroment.initEnviroment();
+  return runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProviderNotifier(),
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
