@@ -162,7 +162,7 @@ class MapSampleState extends State<MapSample> {
       builder: (BuildContext context) {
         final size = MediaQuery.of(context).size;
         final textTheme = Theme.of(context).textTheme;
-
+        final selectePlacesProvider = context.watch<MapsFinderProvider>();
         return Container(
           height: size.height * 0.25,
           decoration: BoxDecoration(
@@ -178,9 +178,7 @@ class MapSampleState extends State<MapSample> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        selectedOptions.clear();
-                      });
+                      selectePlacesProvider.clearSelected();
                     },
                     child: const Text('Limpiar'),
                   ),
@@ -191,8 +189,10 @@ class MapSampleState extends State<MapSample> {
                   TextButton(
                     child: const Text('Hecho'),
                     onPressed: () async {
-                      final uploadJob =
-                          selectedOptions.map(getStoresAround).toList();
+                      final uploadJob = selectePlacesProvider
+                          .getSelectedPlacesCount
+                          .map(getStoresAround)
+                          .toList();
                       final newImages = await Future.wait(uploadJob);
 
                       setState(() {

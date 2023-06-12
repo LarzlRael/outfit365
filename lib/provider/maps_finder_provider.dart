@@ -3,7 +3,7 @@ part of './providers.dart';
 class MapsFinderProvider with ChangeNotifier {
   List<String> selectedPlaces = [];
 
-  get getSelectedPlacesCount => selectedPlaces;
+  List<String> get getSelectedPlacesCount => selectedPlaces;
 
   addOrRemoveElement(String item) {
     selectedPlaces.contains(item)
