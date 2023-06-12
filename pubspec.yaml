@@ -47,6 +47,7 @@ dependencies:
   google_maps_flutter: ^2.3.0
   permission_handler: ^10.3.0
   geolocator: ^9.0.2
+  http: ^0.13.4
   
 
 flutter_native_splash:

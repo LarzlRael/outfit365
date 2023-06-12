@@ -51,7 +51,13 @@ class HomePage extends StatelessWidget {
               ),
             ),
             MakeupPage(),
-            MapSample(),
+            Center(
+                child: TextButton(
+              onPressed: () {
+                context.push('/find_map');
+              },
+              child: Text('Ir a la pagina'),
+            )),
           ],
         ),
       ),

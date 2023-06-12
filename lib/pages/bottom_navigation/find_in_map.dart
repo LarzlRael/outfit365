@@ -11,23 +11,14 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static const CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
-  );
   LatLng? _currentPosition;
+  late GoogleMapController mapController;
   @override
   void initState() {
     super.initState();
     permisionRequest();
     getLocation();
+    selectedPlace = places[0];
   }
 
   void permisionRequest() async {
@@ -53,6 +44,13 @@ class MapSampleState extends State<MapSample> {
   }
 
   Set<Marker> _markers = {};
+  final List<String> places = [
+    'zapatos',
+    'maquillaje',
+    'ropa de mujer',
+    'lenceria',
+  ]; // Option 2
+  late String selectedPlace; // Option 2
   void addMarker() {
     Marker newMarker = Marker(
       markerId: MarkerId('marker_id'),
@@ -73,33 +71,70 @@ class MapSampleState extends State<MapSample> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : GoogleMap(
-              mapType: MapType.normal,
-              /* set marker */
-              markers: _markers,
-              initialCameraPosition: _currentPosition != null
-                  ? CameraPosition(
-                      target: _currentPosition!,
-                      zoom: 16,
-                    )
-                  : _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+          : Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  /* set marker */
+                  markers: _markers,
+                  initialCameraPosition: _currentPosition != null
+                      ? CameraPosition(
+                          target: _currentPosition!,
+                          zoom: 16,
+                        )
+                      : const CameraPosition(
+                          target: LatLng(0, 0),
+                          zoom: 16,
+                        ),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    mapController = controller;
+                  },
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 20,
+                  child: DropdownButton(
+                    value: selectedPlace,
+                    items: places.map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (option) async {
+                      print(option);
+                      setState(() {
+                        selectedPlace = option!;
+                      });
+                      await getStoresAround();
+                    },
+                  ),
+                ),
+              ],
             ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.push('/find_map');
-        },
-        label: const Text('Ir a la pagina'),
-        icon: const Icon(Icons.directions_boat),
+      floatingActionButton: Column(
+        children: [
+          FloatingActionButton(
+            child: const Icon(Icons.pin_drop),
+            onPressed: () {
+              mapController.animateCamera(
+                CameraUpdate.newLatLngZoom(
+                  LatLng(
+                      _currentPosition!.latitude, _currentPosition!.longitude),
+                  17,
+                ),
+              );
+            },
+          ),
+          FloatingActionButton(
+            onPressed: () async {
+              await getStoresAround();
+            },
+            child: const Icon(Icons.search),
+          )
+        ],
       ),
     );
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 
   void accesoGPS(PermissionStatus status) {
@@ -115,5 +150,38 @@ class MapSampleState extends State<MapSample> {
         openAppSettings();
         break;
     }
+  }
+
+  Future<void> getStoresAround() async {
+    String url =
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition!.latitude},${_currentPosition!.longitude}&radius=500&keyword=${selectedPlace}&key=AIzaSyAC6Xr2EAl6tsoR3_CsWqqGYYAM3SCR9xA";
+
+    final uri = Uri.parse(url);
+    var response = await http.get(uri);
+    final models = markerModelFromJson(response.body);
+    setState(
+      () {
+        _markers = models.results.map((e) {
+          return Marker(
+            markerId: MarkerId(e.name),
+            position: LatLng(e.geometry.location.lat, e.geometry.location.lng),
+            infoWindow: InfoWindow(
+              title: e.name,
+              snippet: e.vicinity,
+            ),
+          );
+        }).toSet();
+        _markers.add(
+          Marker(
+            markerId: MarkerId('marker_id'),
+            position: _currentPosition!,
+            infoWindow: InfoWindow(
+                title: 'Título del marcador',
+                snippet: 'Descripción del marcador'),
+            // Otros atributos opcionales como icono personalizado, etc.
+          ),
+        );
+      },
+    );
   }
 }
