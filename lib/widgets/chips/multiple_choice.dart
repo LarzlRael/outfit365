@@ -11,10 +11,9 @@ class MultipleChoiceChip extends StatefulWidget {
 }
 
 class _MultipleChoiceChipState extends State<MultipleChoiceChip> {
-  List<String> selectedChoices = [];
-
   @override
   Widget build(BuildContext context) {
+    final mapsFinderProvider = Provider.of<MapsFinderProvider>(context);
     return Wrap(
       children: widget.options.map((String choice) {
         return Padding(
@@ -37,14 +36,12 @@ class _MultipleChoiceChipState extends State<MultipleChoiceChip> {
               choice.toCapitalize(),
               style: Theme.of(context).textTheme.labelLarge,
             ),
-            selected: selectedChoices.contains(choice),
+            selected: mapsFinderProvider.selectedPlaces.contains(choice),
             onSelected: (selected) {
               setState(() {
-                selected
-                    ? selectedChoices.add(choice)
-                    : selectedChoices.remove(choice);
-                widget.onSelectionChanged(selectedChoices);
+                widget.onSelectionChanged(mapsFinderProvider.selectedPlaces);
               });
+              mapsFinderProvider.addOrRemoveElement(choice);
             },
           ),
         );

@@ -114,37 +114,6 @@ class MapSampleState extends State<MapSample> {
                     mapController = controller;
                   },
                 ),
-                /* Positioned(
-                  top: MediaQuery.of(context).padding.top + 20,
-                  left: 10,
-                  child: Row(
-                    children: [
-                      Card(
-                        child: DropdownButton(
-                          value: selectedPlace,
-                          items: places
-                              .map(
-                                (value) => DropdownMenuItem(
-                                  value: value,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(value.toCapitalize()),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (option) async {
-                            print(option);
-                            setState(() {
-                              selectedPlace = option!;
-                            });
-                            await getStoresAround();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ), */
               ],
             ),
     );
@@ -193,71 +162,68 @@ class MapSampleState extends State<MapSample> {
       builder: (BuildContext context) {
         final size = MediaQuery.of(context).size;
         final textTheme = Theme.of(context).textTheme;
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            height: size.height * 0.25,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+
+        return Container(
+          height: size.height * 0.25,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedOptions.clear();
+                      });
+                    },
+                    child: const Text('Limpiar'),
+                  ),
+                  Text(
+                    'Filtrar',
+                    style: textTheme.titleSmall,
+                  ),
+                  TextButton(
+                    child: const Text('Hecho'),
+                    onPressed: () async {
+                      final uploadJob =
+                          selectedOptions.map(getStoresAround).toList();
+                      final newImages = await Future.wait(uploadJob);
+
+                      setState(() {
+                        _markers = newImages
+                            .expand((element) => element.result)
+                            .map((e) {
+                          return Marker(
+                            markerId: MarkerId(e.name),
+                            position: LatLng(
+                              e.geometry.location.lat,
+                              e.geometry.location.lng,
+                            ),
+                            infoWindow: InfoWindow(
+                              title: e.name,
+                              snippet: e.vicinity,
+                            ),
+                          );
+                        }).toSet();
+                      });
+                      context.pop();
+                    },
+                  ),
+                ],
               ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedOptions.clear();
-                        });
-                      },
-                      child: const Text('Limpiar'),
-                    ),
-                    Text(
-                      'Filtrar',
-                      style: textTheme.titleSmall,
-                    ),
-                    TextButton(
-                      child: const Text('Hecho'),
-                      onPressed: () async {
-                        final uploadJob =
-                            selectedOptions.map(getStoresAround).toList();
-
-                        final newImages = await Future.wait(uploadJob);
-
-                        setState(() {
-                          _markers = newImages
-                              .expand((element) => element.result)
-                              .map((e) {
-                            return Marker(
-                              markerId: MarkerId(e.name),
-                              position: LatLng(
-                                e.geometry.location.lat,
-                                e.geometry.location.lng,
-                              ),
-                              infoWindow: InfoWindow(
-                                title: e.name,
-                                snippet: e.vicinity,
-                              ),
-                            );
-                          }).toSet();
-                        });
-                        context.pop();
-                      },
-                    ),
-                  ],
-                ),
-                MultipleChoiceChip(
-                  options: places,
-                  onSelectionChanged: handleSelectionChanged,
-                ),
-              ],
-            ),
-          );
-        });
+              MultipleChoiceChip(
+                options: places,
+                onSelectionChanged: handleSelectionChanged,
+              ),
+            ],
+          ),
+        );
       },
     );
   }
