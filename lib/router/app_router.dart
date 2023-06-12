@@ -28,5 +28,9 @@ final appRouter = GoRouter(
       path: '/makeup_creator',
       builder: (context, state) => MakeupCreator(),
     ),
+    GoRoute(
+      path: '/find_map',
+      builder: (context, state) => MapSample(),
+    ),
   ],
 );

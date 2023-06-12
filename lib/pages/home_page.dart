@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             tabs: [
               tabItem("Outfits"),
               tabItem("Maquillaje"),
-              tabItem("Buscar ropa y maquillaje"),
+              tabItem("Tiendas de ropa y maquillaje"),
             ],
           ),
         ),
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             MakeupPage(),
-            Icon(Icons.games),
+            MapSample(),
           ],
         ),
       ),

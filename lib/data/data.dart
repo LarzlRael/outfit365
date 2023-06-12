@@ -6,10 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../widgets/widgets.dart';
 
 final List<String> cloths = [
-  "assets/animated.glb",
-  "assets/punk_girl.glb",
-  "assets/animated_woman2.glb",
-  "assets/t-shirt.glb",
+  /* e */
+  "assets/girl.glb",
 ];
 
 gerRandomCloth() {

@@ -26,7 +26,7 @@ class MakeupCreator extends StatelessWidget {
             ),
             unselectedLabelColor: Colors.black,
             tabs: [
-              Tab(text: 'All'),
+              Tab(text: 'Todos'),
               Tab(text: 'Skincare'),
               Tab(text: 'Make-up'),
             ],
