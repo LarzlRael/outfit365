@@ -23,7 +23,6 @@ class MapSampleState extends State<MapSample> {
   late GoogleMapController mapController;
   Set<Marker> _markers = {};
 
-  List<String> selectedPlaces = [];
   bool _isLoading = true;
 
   @override
@@ -211,6 +210,19 @@ class MapSampleState extends State<MapSample> {
                             ),
                           );
                         }).toSet();
+                        _markers.add(
+                          Marker(
+                            markerId: MarkerId('marker_id'),
+                            position: _currentPosition,
+                            infoWindow: InfoWindow(
+                              title: 'Tu estás aqui',
+                            ),
+                            icon: BitmapDescriptor.defaultMarkerWithHue(
+                              BitmapDescriptor.hueAzure,
+                            ),
+                            // Otros atributos opcionales como icono personalizado, etc.
+                          ),
+                        );
                       });
                       context.pop();
                     },
