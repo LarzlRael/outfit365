@@ -8,5 +8,5 @@ class Enviroment {
   }
 
   static String googleMapsApiKey =
-      dotenv.env['GOOGLE_MAPS_API_KEY'] ?? 'No está configurado el API_URL';
+      dotenv.env['GOOGLE_MAPS_API_KEY'] ?? 'No está configurado el GOOGLE_MAPS_API_KEY';
 }

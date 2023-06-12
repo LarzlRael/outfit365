@@ -11,16 +11,19 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
+  List<String> selectedOptions = [];
+
+  void handleSelectionChanged(List<String> selectedChoices) {
+    setState(() {
+      selectedOptions = selectedChoices;
+    });
+  }
+
   late LatLng _currentPosition;
   late GoogleMapController mapController;
   Set<Marker> _markers = {};
-  final List<String> places = [
-    'zapatos',
-    'maquillaje',
-    'ropa de mujer',
-    'lenceria',
-  ];
-  late String selectedPlace;
+
+  List<String> selectedPlaces = [];
   bool _isLoading = true;
 
   @override
@@ -28,7 +31,6 @@ class MapSampleState extends State<MapSample> {
     super.initState();
     permisionRequest();
     getLocation();
-    selectedPlace = "zapatos";
   }
 
   void permisionRequest() async {
@@ -58,11 +60,19 @@ class MapSampleState extends State<MapSample> {
       markerId: MarkerId('marker_id'),
       position: _currentPosition,
       infoWindow: InfoWindow(
-          title: 'Título del marcador', snippet: 'Descripción del marcador'),
+        title: 'Título del marcador',
+        snippet: 'Descripción del marcador',
+      ),
       // Otros atributos opcionales como icono personalizado, etc.
     );
     setState(() {
       _markers.add(newMarker);
+    });
+  }
+
+  clear() {
+    setState(() {
+      _markers.clear();
     });
   }
 
@@ -72,12 +82,13 @@ class MapSampleState extends State<MapSample> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.pin_drop),
         onPressed: () {
-          mapController.animateCamera(
+          /* mapController.animateCamera(
             CameraUpdate.newLatLngZoom(
               LatLng(_currentPosition.latitude, _currentPosition.longitude),
               17,
             ),
-          );
+          ); */
+          showModalFilter();
         },
       ),
       appBar: AppBar(
@@ -103,7 +114,7 @@ class MapSampleState extends State<MapSample> {
                     mapController = controller;
                   },
                 ),
-                Positioned(
+                /* Positioned(
                   top: MediaQuery.of(context).padding.top + 20,
                   left: 10,
                   child: Row(
@@ -133,7 +144,7 @@ class MapSampleState extends State<MapSample> {
                       ),
                     ],
                   ),
-                ),
+                ), */
               ],
             ),
     );
@@ -154,36 +165,99 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  Future<void> getStoresAround() async {
+  Future<MarkerModelImage> getStoresAround(String searchQuery) async {
+    final mettersAround = 500;
     final googleMapApiKey = Enviroment.googleMapsApiKey;
     String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition.latitude},${_currentPosition.longitude}&radius=500&keyword=${selectedPlace}&key=${googleMapApiKey}";
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition.latitude},${_currentPosition.longitude}&radius=${mettersAround}&keyword=${searchQuery}&key=${googleMapApiKey}";
 
     final uri = Uri.parse(url);
     var response = await http.get(uri);
     final models = markerModelFromJson(response.body);
-    setState(
-      () {
-        _markers = models.results.map((e) {
-          return Marker(
-            markerId: MarkerId(e.name),
-            position: LatLng(e.geometry.location.lat, e.geometry.location.lng),
-            infoWindow: InfoWindow(
-              title: e.name,
-              snippet: e.vicinity,
+    /* return models.results; */
+    return MarkerModelImage(
+      icon: imageMap[searchQuery]!,
+      result: models.results,
+    );
+  }
+
+  showModalFilter() {
+    final List<String> places = [
+      'zapatos',
+      'maquillaje',
+      'ropa de mujer',
+      'lenceria',
+    ];
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        final size = MediaQuery.of(context).size;
+        final textTheme = Theme.of(context).textTheme;
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            height: size.height * 0.25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedOptions.clear();
+                        });
+                      },
+                      child: const Text('Limpiar'),
+                    ),
+                    Text(
+                      'Filtrar',
+                      style: textTheme.titleSmall,
+                    ),
+                    TextButton(
+                      child: const Text('Hecho'),
+                      onPressed: () async {
+                        final uploadJob =
+                            selectedOptions.map(getStoresAround).toList();
+
+                        final newImages = await Future.wait(uploadJob);
+
+                        setState(() {
+                          _markers = newImages
+                              .expand((element) => element.result)
+                              .map((e) {
+                            return Marker(
+                              markerId: MarkerId(e.name),
+                              position: LatLng(
+                                e.geometry.location.lat,
+                                e.geometry.location.lng,
+                              ),
+                              infoWindow: InfoWindow(
+                                title: e.name,
+                                snippet: e.vicinity,
+                              ),
+                            );
+                          }).toSet();
+                        });
+                        context.pop();
+                      },
+                    ),
+                  ],
+                ),
+                MultipleChoiceChip(
+                  options: places,
+                  onSelectionChanged: handleSelectionChanged,
+                ),
+              ],
             ),
           );
-        }).toSet();
-        _markers.add(
-          Marker(
-            markerId: MarkerId('marker_id'),
-            position: _currentPosition,
-            infoWindow: InfoWindow(
-                title: 'Título del marcador',
-                snippet: 'Descripción del marcador'),
-            // Otros atributos opcionales como icono personalizado, etc.
-          ),
-        );
+        });
       },
     );
   }
