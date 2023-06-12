@@ -32,5 +32,14 @@ final appRouter = GoRouter(
       path: '/find_map',
       builder: (context, state) => MapSample(),
     ),
+    GoRoute(
+      path: '/show_details_page',
+      builder: (context, state) {
+        String queryToSearch = state.extra as String;
+        return ShowDetailsPage(
+          queryToSearch: queryToSearch,
+        );
+      },
+    ),
   ],
 );

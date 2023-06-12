@@ -20,6 +20,7 @@ import '../constants/constant.dart';
 import '../constants/enviroments.dart';
 import '../data/data.dart';
 import '../models/markers_model.dart';
+import '../models/pixabay_model.dart';
 import '../provider/providers.dart';
 import '../services/services.dart';
 
@@ -28,7 +29,9 @@ part 'home_page.dart';
 part 'welcome_page.dart';
 part 'pick_outfit_page.dart';
 part 'makeup_creator.dart';
+part 'show_details_page.dart';
 
 /* Bottoms naviations items */
 part 'bottom_navigation/makeup_page.dart';
 part 'bottom_navigation/find_in_map.dart';
+part 'bottom_navigation/map_presentation.dart';

@@ -24,7 +24,6 @@ class CircleButton extends StatelessWidget {
         child: Container(
           height: 180.0,
           /* margin: const EdgeInsets.all(15.0), */
-
           child: Stack(
             children: [
               ClipRRect(

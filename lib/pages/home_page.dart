@@ -31,33 +31,37 @@ class HomePage extends StatelessWidget {
         body: TabBarView(
           children: [
             Scaffold(
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
                   context.push('/pick_outfit');
                 },
-                child: Icon(Icons.add),
+                icon: Icon(Icons.add),
+                label: Text('Crea tu propio outfit'),
               ),
-              body: Container(
-                padding: const EdgeInsets.all(15.0),
-                width: double.infinity,
-                child: AlignedGridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 25,
-                  itemCount: registerOptions(context).length,
-                  itemBuilder: (context, index) =>
-                      registerOptions(context)[index],
+              body: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: double.infinity,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    15,
+                    15,
+                    15,
+                    0,
+                  ),
+                  child: AlignedGridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 25,
+                    itemCount: categoryOptions(context).length,
+                    itemBuilder: (context, index) =>
+                        categoryOptions(context)[index],
+                  ),
                 ),
               ),
             ),
             MakeupPage(),
-            Center(
-                child: TextButton(
-              onPressed: () {
-                context.push('/find_map');
-              },
-              child: Text('Ir a la pagina'),
-            )),
+            MapPresentation(),
           ],
         ),
       ),

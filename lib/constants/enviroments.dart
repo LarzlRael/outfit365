@@ -7,6 +7,9 @@ class Enviroment {
     );
   }
 
-  static String googleMapsApiKey =
-      dotenv.env['GOOGLE_MAPS_API_KEY'] ?? 'No está configurado el GOOGLE_MAPS_API_KEY';
+  static String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ??
+      'No está configurado el GOOGLE_MAPS_API_KEY';
+
+  static String pixabayApiKey =
+      dotenv.env['PIXABAY_APY_KEY'] ?? 'No está configurado el PIXABAY_APY_KEY';
 }
