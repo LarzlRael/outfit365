@@ -2,9 +2,11 @@ part of 'pages.dart';
 
 class WelcomePage extends StatelessWidget {
   static const String routeName = 'welcome_page';
+
   const WelcomePage({super.key});
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProviderNotifier>(context);
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SizedBox(

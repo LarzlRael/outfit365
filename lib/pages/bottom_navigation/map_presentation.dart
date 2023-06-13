@@ -52,30 +52,13 @@ class MapPresentation extends StatelessWidget {
                       child: SizedBox(
                         width: 150,
                         height: 50,
-                        child: FilledButton(
+                        child: ButtonIcon(
+                          textButton: 'Ir al mapa',
+                          icon: Icons.arrow_forward,
+                          rotation: 315,
                           onPressed: () {
                             context.push('/find_map');
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'Ir al mapa',
-                                style: textTheme.titleSmall!.copyWith(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Transform.rotate(
-                                angle: 315 * math.pi / 180,
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  size: 20,
-                                ),
-                              )
-                            ],
-                          ),
                         ),
                       ),
                     )

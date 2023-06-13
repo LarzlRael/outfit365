@@ -37,25 +37,15 @@ class HomePage extends StatelessWidget {
                 icon: Icon(Icons.add),
                 label: Text('Crea tu propio outfit'),
               ),
-              body: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: double.infinity,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    15,
-                    15,
-                    15,
-                    0,
-                  ),
-                  child: AlignedGridView.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 25,
-                    itemCount: categoryOptions(context).length,
-                    itemBuilder: (context, index) =>
-                        categoryOptions(context)[index],
-                  ),
+              body: Container(
+                child: AlignedGridView.count(
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 25,
+                  itemCount: categoryOptions(context).length,
+                  itemBuilder: (context, index) =>
+                      categoryOptions(context)[index],
                 ),
               ),
             ),
@@ -81,16 +71,14 @@ Widget tabItem(String title) {
       ),
       child: Align(
         alignment: Alignment.center,
-        child: Flexible(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              /* color: Colors.white, */
-            ),
-            textAlign: TextAlign.center,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            /* color: Colors.white, */
           ),
+          textAlign: TextAlign.center,
         ),
       ),
     ),

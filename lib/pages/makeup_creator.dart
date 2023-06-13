@@ -7,7 +7,7 @@ class MakeupCreator extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Maquillaje'),
@@ -27,8 +27,9 @@ class MakeupCreator extends StatelessWidget {
             unselectedLabelColor: Colors.black,
             tabs: [
               Tab(text: 'Todos'),
-              Tab(text: 'Skincare'),
-              Tab(text: 'Make-up'),
+              Tab(text: 'Maquillaje facial'),
+              Tab(text: 'Maquillaje de ojos'),
+              Tab(text: 'Herramientas y accesorios de maquillaje'),
             ],
           ),
         ),
@@ -37,6 +38,9 @@ class MakeupCreator extends StatelessWidget {
             // Contenido de la pestaña 1
             Container(
               color: Colors.red,
+            ),
+            Container(
+              color: Colors.orange,
             ),
             // Contenido de la pestaña 2
             Container(

@@ -7,21 +7,22 @@ class MakeupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: ButtonIcon(
+        textButton: 'Explorar',
+        icon: Icons.arrow_forward_ios,
         onPressed: () {
           context.push('/makeup_creator');
         },
-        child: Icon(Icons.add),
       ),
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
+      body: SizedBox.expand(
         child: Stack(
           children: [
             Image.network(
               'https://i.pinimg.com/736x/16/fe/ff/16feff6780cbea0374729540df7e0c88.jpg',
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               height: double.infinity,
+              width: double.infinity,
+
               /*  */
             ),
             Opacity(

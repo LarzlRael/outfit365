@@ -50,7 +50,7 @@ class Result {
   int userRatingsTotal;
   String vicinity;
   PlusCode? plusCode;
-  OpeningHours? openingHours;
+
   List<Photo>? photos;
 
   Result({
@@ -68,7 +68,6 @@ class Result {
     required this.userRatingsTotal,
     required this.vicinity,
     this.plusCode,
-    this.openingHours,
     this.photos,
   });
 
@@ -89,9 +88,6 @@ class Result {
         plusCode: json["plus_code"] == null
             ? null
             : PlusCode.fromJson(json["plus_code"]),
-        openingHours: json["opening_hours"] == null
-            ? null
-            : OpeningHours.fromJson(json["opening_hours"]),
         photos: json["photos"] == null
             ? []
             : List<Photo>.from(json["photos"]!.map((x) => Photo.fromJson(x))),
@@ -112,7 +108,6 @@ class Result {
         "user_ratings_total": userRatingsTotal,
         "vicinity": vicinity,
         "plus_code": plusCode?.toJson(),
-        "opening_hours": openingHours?.toJson(),
         "photos": photos == null
             ? []
             : List<dynamic>.from(photos!.map((x) => x.toJson())),
@@ -176,22 +171,6 @@ class Viewport {
   Map<String, dynamic> toJson() => {
         "northeast": northeast.toJson(),
         "southwest": southwest.toJson(),
-      };
-}
-
-class OpeningHours {
-  bool openNow;
-
-  OpeningHours({
-    required this.openNow,
-  });
-
-  factory OpeningHours.fromJson(Map<String, dynamic> json) => OpeningHours(
-        openNow: json["open_now"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "open_now": openNow,
       };
 }
 
