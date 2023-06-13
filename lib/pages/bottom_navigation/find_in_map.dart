@@ -21,6 +21,9 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     super.initState();
     permisionRequest();
+    /* WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showModalFilter();
+    }); */
   }
 
   void setCurrentPosition() {

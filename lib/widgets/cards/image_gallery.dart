@@ -11,15 +11,6 @@ class ImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (images.isEmpty) {
-      return ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        child: Image.network(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-          fit: BoxFit.cover,
-        ),
-      );
-    }
     return PageView(
       scrollDirection: Axis.horizontal,
       controller: PageController(viewportFraction: 0.7),

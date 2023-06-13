@@ -14,6 +14,9 @@ class _ModelViewPageState extends State<ModelViewPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final imagesSelected = context.read<OutfitCreatorProvider>().state.images;
+    final topPosition =
+        (imagesSelected.length == 1) ? size.height * 0.30 : size.height * 0.12;
+
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
@@ -37,7 +40,7 @@ class _ModelViewPageState extends State<ModelViewPage> {
               Positioned(
                 right: 10,
                 /* change this depends of items, */
-                top: size.height * 0.15,
+                top: topPosition,
                 child: Container(
                   width: size.width * 0.2,
                   height: size.height * 0.7,
@@ -84,30 +87,16 @@ class _ModelViewPageState extends State<ModelViewPage> {
                   width: size.width * 1,
                   child: Column(
                     children: [
-                      /* Text(
-                        "Outfit Creator",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Choose your outfit",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ), */
                       ListTile(
                         title: Text(
-                          "Outfit Creator",
+                          "Estilo Sin Límites",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(
-                          "Choose your outfit",
+                          "Crea outfits a tu medida y refleja tu personalidad",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w300,

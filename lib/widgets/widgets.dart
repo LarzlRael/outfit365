@@ -15,3 +15,4 @@ part './cards/management_cards.dart';
 
 part 'buttons/circle_button.dart';
 part 'chips/multiple_choice.dart';
+part 'loading/circular_progress.dart';

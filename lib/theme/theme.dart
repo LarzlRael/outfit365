@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const colorList = <Color>[
+  Colors.orange,
   Colors.purple,
   Colors.amber,
   Colors.teal,
   Colors.green,
   Colors.red,
   Colors.deepPurple,
-  Colors.orange,
   Colors.pink,
   Colors.pinkAccent,
 ];
