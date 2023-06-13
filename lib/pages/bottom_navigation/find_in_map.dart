@@ -11,14 +11,6 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  List<String> selectedOptions = [];
-
-  void handleSelectionChanged(List<String> selectedChoices) {
-    setState(() {
-      selectedOptions = selectedChoices;
-    });
-  }
-
   late LatLng _currentPosition;
   late GoogleMapController mapController;
   Set<Marker> _markers = {};
@@ -29,49 +21,47 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     super.initState();
     permisionRequest();
-    getLocation();
+  }
+
+  void setCurrentPosition() {
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker_id'),
+        position: _currentPosition,
+        infoWindow: InfoWindow(
+          title: 'Tu estás aqui',
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueAzure,
+        ),
+      ),
+    );
   }
 
   void permisionRequest() async {
     final status = await Permission.location.request();
     accesoGPS(status);
+    await setCurrentMarker();
   }
 
-  getLocation() async {
-    LocationPermission permission;
-    permission = await Geolocator.requestPermission();
-
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    double lat = position.latitude;
-    double long = position.longitude;
-
-    LatLng location = LatLng(lat, long);
+  setCurrentMarker() async {
+    final location = await getLocation();
 
     setState(() {
       _currentPosition = location;
       _isLoading = false;
-    });
-  }
-
-  void addMarker() {
-    Marker newMarker = Marker(
-      markerId: MarkerId('marker_id'),
-      position: _currentPosition,
-      infoWindow: InfoWindow(
-        title: 'Título del marcador',
-        snippet: 'Descripción del marcador',
-      ),
-      // Otros atributos opcionales como icono personalizado, etc.
-    );
-    setState(() {
-      _markers.add(newMarker);
-    });
-  }
-
-  clear() {
-    setState(() {
-      _markers.clear();
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker_id'),
+          position: _currentPosition,
+          infoWindow: InfoWindow(
+            title: 'Tu estás aqui',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueAzure,
+          ),
+        ),
+      );
     });
   }
 
@@ -102,7 +92,6 @@ class MapSampleState extends State<MapSample> {
                 GoogleMap(
                   mapType: MapType.normal,
                   /* set marker */
-
                   markers: _markers,
                   initialCameraPosition: CameraPosition(
                     target: _currentPosition,
@@ -118,23 +107,8 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  void accesoGPS(PermissionStatus status) {
-    switch (status) {
-      case PermissionStatus.granted:
-        /* Navigator.pushReplacementNamed(context, 'mapa'); */
-        break;
-
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-      case PermissionStatus.limited:
-      case PermissionStatus.permanentlyDenied:
-        openAppSettings();
-        break;
-    }
-  }
-
   Future<MarkerModelImage> getStoresAround(String searchQuery) async {
-    final mettersAround = 500;
+    final mettersAround = 2000;
     final googleMapApiKey = Enviroment.googleMapsApiKey;
     String url =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition.latitude},${_currentPosition.longitude}&radius=${mettersAround}&keyword=${searchQuery}&key=${googleMapApiKey}";
@@ -161,9 +135,9 @@ class MapSampleState extends State<MapSample> {
       builder: (BuildContext context) {
         final size = MediaQuery.of(context).size;
         final textTheme = Theme.of(context).textTheme;
-        final selectePlacesProvider = context.watch<MapsFinderProvider>();
+        final mapsFinderProvider = context.watch<MapsFinderProvider>();
         return Container(
-          height: size.height * 0.25,
+          height: size.height * 0.27,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -177,7 +151,7 @@ class MapSampleState extends State<MapSample> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      selectePlacesProvider.clearSelected();
+                      mapsFinderProvider.clearSelected();
                     },
                     child: const Text('Limpiar'),
                   ),
@@ -185,58 +159,66 @@ class MapSampleState extends State<MapSample> {
                     'Filtrar',
                     style: textTheme.titleSmall,
                   ),
-                  TextButton(
-                    child: const Text('Hecho'),
-                    onPressed: () async {
-                      final uploadJob = selectePlacesProvider
-                          .getSelectedPlacesCount
-                          .map(getStoresAround)
-                          .toList();
-                      final newImages = await Future.wait(uploadJob);
-
-                      setState(() {
-                        _markers = newImages
-                            .expand((element) => element.result)
-                            .map((e) {
-                          return Marker(
-                            markerId: MarkerId(e.name),
-                            position: LatLng(
-                              e.geometry.location.lat,
-                              e.geometry.location.lng,
-                            ),
-                            infoWindow: InfoWindow(
-                              title: e.name,
-                              snippet: e.vicinity,
-                            ),
-                          );
-                        }).toSet();
-                        _markers.add(
-                          Marker(
-                            markerId: MarkerId('marker_id'),
-                            position: _currentPosition,
-                            infoWindow: InfoWindow(
-                              title: 'Tu estás aqui',
-                            ),
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueAzure,
-                            ),
-                            // Otros atributos opcionales como icono personalizado, etc.
-                          ),
-                        );
-                      });
-                      context.pop();
-                    },
-                  ),
                 ],
               ),
               MultipleChoiceChip(
                 options: places,
-                onSelectionChanged: handleSelectionChanged,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: context.pop,
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await setMakers(mapsFinderProvider);
+                    },
+                    child: const Text('Hecho'),
+                  ),
+                ],
+              )
             ],
           ),
         );
       },
     );
+  }
+
+  Future setMakers(MapsFinderProvider mapsFindProvider) async {
+    final uploadJob =
+        mapsFindProvider.getSelectedPlacesCount.map(getStoresAround).toList();
+    final newImages = await Future.wait(uploadJob);
+
+    setState(() {
+      _markers = newImages.expand((element) => element.result).map((e) {
+        return Marker(
+          markerId: MarkerId(e.name),
+          position: LatLng(
+            e.geometry.location.lat,
+            e.geometry.location.lng,
+          ),
+          infoWindow: InfoWindow(
+            title: e.name,
+            snippet: e.vicinity,
+          ),
+        );
+      }).toSet();
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker_id'),
+          position: _currentPosition,
+          infoWindow: InfoWindow(
+            title: 'Tu estás aqui',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueAzure,
+          ),
+          // Otros atributos opcionales como icono personalizado, etc.
+        ),
+      );
+    });
+    context.pop();
   }
 }

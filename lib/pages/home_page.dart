@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(appName),
-          backgroundColor: Colors.white,
           elevation: 0,
           bottom: TabBar(
             labelColor: Colors.white,

@@ -31,8 +31,10 @@ class CircleButton extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  child: Image.network(
-                    imageSrc,
+                  child: FadeInImage(
+                    placeholder:
+                        AssetImage('assets/loadings/makeup_loading.gif'),
+                    image: NetworkImage(imageSrc),
                     fit: BoxFit.fill,
                   ),
                 ),

@@ -2,9 +2,10 @@ part of '../widgets.dart';
 
 class MultipleChoiceChip extends StatefulWidget {
   final List<String> options;
-  final Function(List<String>) onSelectionChanged;
 
-  MultipleChoiceChip({required this.options, required this.onSelectionChanged});
+  MultipleChoiceChip({
+    required this.options,
+  });
 
   @override
   _MultipleChoiceChipState createState() => _MultipleChoiceChipState();
@@ -38,9 +39,6 @@ class _MultipleChoiceChipState extends State<MultipleChoiceChip> {
             ),
             selected: mapsFinderProvider.selectedPlaces.contains(choice),
             onSelected: (selected) {
-              setState(() {
-                widget.onSelectionChanged(mapsFinderProvider.selectedPlaces);
-              });
               mapsFinderProvider.addOrRemoveElement(choice);
             },
           ),

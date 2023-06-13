@@ -1,7 +1,16 @@
 part of './pages.dart';
 
-class ShowDetailsPage extends StatefulWidget {
+class QueryAndTitle {
   final String queryToSearch;
+  final String title;
+  QueryAndTitle({
+    required this.queryToSearch,
+    required this.title,
+  });
+}
+
+class ShowDetailsPage extends StatefulWidget {
+  final QueryAndTitle queryToSearch;
   const ShowDetailsPage({
     super.key,
     required this.queryToSearch,
@@ -15,14 +24,7 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
   @override
   void initState() {
     super.initState();
-    getImagesFromWeb(
-      widget.queryToSearch,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    getImagesFromWeb(widget.queryToSearch.queryToSearch);
   }
 
   List<String> listImages = [];
@@ -31,7 +33,7 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Show Details Page'),
+        title: Text(widget.queryToSearch.title),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -39,27 +41,33 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
         },
         child: Icon(Icons.add),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: MasonryGridView.count(
-          physics: const BouncingScrollPhysics(),
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          itemCount: listImages.length,
-          itemBuilder: (context, index) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: InstaImageViewer(
-                child: Image.network(
-                  listImages[index],
-                  fit: BoxFit.contain,
-                ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: MasonryGridView.count(
+                physics: const BouncingScrollPhysics(),
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                itemCount: listImages.length,
+                itemBuilder: (context, index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: InstaImageViewer(
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage('assets/loadings/bottle_loader.gif'),
+                        image: NetworkImage(
+                          listImages[index],
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 

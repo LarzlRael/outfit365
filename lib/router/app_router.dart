@@ -35,7 +35,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/show_details_page',
       builder: (context, state) {
-        String queryToSearch = state.extra as String;
+        QueryAndTitle queryToSearch = state.extra as QueryAndTitle;
         return ShowDetailsPage(
           queryToSearch: queryToSearch,
         );
