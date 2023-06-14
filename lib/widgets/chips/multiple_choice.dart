@@ -37,7 +37,7 @@ class _MultipleChoiceChipState extends State<MultipleChoiceChip> {
               choice.toCapitalize(),
               style: Theme.of(context).textTheme.labelLarge,
             ),
-            selected: mapsFinderProvider.selectedPlaces.contains(choice),
+            selected: mapsFinderProvider.getSelectedPlaces.contains(choice),
             onSelected: (selected) {
               mapsFinderProvider.addOrRemoveElement(choice);
             },

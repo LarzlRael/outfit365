@@ -11,34 +11,19 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  late LatLng _currentPosition;
   late GoogleMapController mapController;
-  Set<Marker> _markers = {};
 
   bool _isLoading = true;
+  late MapsFinderProvider mapsFinderProvider;
 
   @override
   void initState() {
     super.initState();
+    mapsFinderProvider = context.read<MapsFinderProvider>();
     permisionRequest();
     /* WidgetsBinding.instance!.addPostFrameCallback((_) {
       showModalFilter();
     }); */
-  }
-
-  void setCurrentPosition() {
-    _markers.add(
-      Marker(
-        markerId: MarkerId('marker_id'),
-        position: _currentPosition,
-        infoWindow: InfoWindow(
-          title: 'Tu estás aqui',
-        ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          BitmapDescriptor.hueAzure,
-        ),
-      ),
-    );
   }
 
   void permisionRequest() async {
@@ -49,22 +34,14 @@ class MapSampleState extends State<MapSample> {
 
   setCurrentMarker() async {
     final location = await getLocation();
-
+    mapsFinderProvider.setCurrentPosition(
+      LatLng(
+        location.latitude,
+        location.longitude,
+      ),
+    );
     setState(() {
-      _currentPosition = location;
       _isLoading = false;
-      _markers.add(
-        Marker(
-          markerId: MarkerId('marker_id'),
-          position: _currentPosition,
-          infoWindow: InfoWindow(
-            title: 'Tu estás aqui',
-          ),
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueAzure,
-          ),
-        ),
-      );
     });
   }
 
@@ -92,17 +69,21 @@ class MapSampleState extends State<MapSample> {
             )
           : Stack(
               children: [
-                GoogleMap(
-                  mapType: MapType.normal,
-                  /* set marker */
-                  markers: _markers,
-                  initialCameraPosition: CameraPosition(
-                    target: _currentPosition,
-                    zoom: 16,
-                  ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    mapController = controller;
+                Consumer<MapsFinderProvider>(
+                  builder: (_, mapsFinderProvider, child) {
+                    return GoogleMap(
+                      mapType: MapType.normal,
+                      /* set marker */
+                      markers: mapsFinderProvider.getCurrentMarkers,
+                      initialCameraPosition: CameraPosition(
+                        target: mapsFinderProvider.getCurrentPosition,
+                        zoom: 16,
+                      ),
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                        mapController = controller;
+                      },
+                    );
                   },
                 ),
               ],
@@ -114,7 +95,7 @@ class MapSampleState extends State<MapSample> {
     final mettersAround = 2000;
     final googleMapApiKey = Enviroment.googleMapsApiKey;
     String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${_currentPosition.latitude},${_currentPosition.longitude}&radius=${mettersAround}&keyword=${searchQuery}&key=${googleMapApiKey}";
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${mapsFinderProvider.getCurrentPosition.latitude},${mapsFinderProvider.getCurrentPosition.longitude}&radius=${mettersAround}&keyword=${searchQuery}&key=${googleMapApiKey}";
 
     final uri = Uri.parse(url);
     var response = await http.get(uri);
@@ -132,6 +113,7 @@ class MapSampleState extends State<MapSample> {
       'maquillaje',
       'ropa de mujer',
       'lenceria',
+      'salon de belleza',
     ];
     showModalBottomSheet<void>(
       context: context,
@@ -140,7 +122,7 @@ class MapSampleState extends State<MapSample> {
         final textTheme = Theme.of(context).textTheme;
         final mapsFinderProvider = context.watch<MapsFinderProvider>();
         return Container(
-          height: size.height * 0.27,
+          height: size.height * 0.35,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -191,11 +173,11 @@ class MapSampleState extends State<MapSample> {
 
   Future setMakers(MapsFinderProvider mapsFindProvider) async {
     final uploadJob =
-        mapsFindProvider.getSelectedPlacesCount.map(getStoresAround).toList();
+        mapsFindProvider.getSelectedPlaces.map(getStoresAround).toList();
     final newImages = await Future.wait(uploadJob);
 
-    setState(() {
-      _markers = newImages.expand((element) => element.result).map((e) {
+    mapsFindProvider.setMarkers(
+      newImages.expand((element) => element.result).map((e) {
         return Marker(
           markerId: MarkerId(e.name),
           position: LatLng(
@@ -207,21 +189,8 @@ class MapSampleState extends State<MapSample> {
             snippet: e.vicinity,
           ),
         );
-      }).toSet();
-      _markers.add(
-        Marker(
-          markerId: MarkerId('marker_id'),
-          position: _currentPosition,
-          infoWindow: InfoWindow(
-            title: 'Tu estás aqui',
-          ),
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueAzure,
-          ),
-          // Otros atributos opcionales como icono personalizado, etc.
-        ),
-      );
-    });
+      }).toSet(),
+    );
     context.pop();
   }
 }

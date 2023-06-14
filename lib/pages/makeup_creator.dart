@@ -37,17 +37,9 @@ class MakeupCreator extends StatelessWidget {
           children: [
             // Contenido de la pestaña 1
             VideoScrollabelView(),
-            Container(
-              color: Colors.orange,
-            ),
-            // Contenido de la pestaña 2
-            Container(
-              color: Colors.green,
-            ),
-            // Contenido de la pestaña 3
-            Container(
-              color: Colors.blue,
-            ),
+            VideoScrollabelView(),
+            VideoScrollabelView(),
+            VideoScrollabelView(),
           ],
         ),
       ),

@@ -21,4 +21,5 @@ Map<String, String> imageMap = {
   'maquillaje': 'assets/store_icons/makeup.png',
   'ropa de mujer': 'assets/store_icons/woman-clothes.png',
   'lenceria': 'assets/store_icons/lingerie.png',
+  'salon de belleza': 'assets/store_icons/beauty_salon.png',
 };

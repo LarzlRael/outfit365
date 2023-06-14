@@ -164,7 +164,7 @@ List<VideoNCaption> videoList = [
   ),
   VideoNCaption(
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767024/makupe_network/xumuse60ibzf3raol29s.mp4',
-    'Maquillaje de ojos',
+    'Maquillaje de labios',
   ),
   VideoNCaption(
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767023/makupe_network/y7oda34uydoqnrrhwmjr.mp4',
