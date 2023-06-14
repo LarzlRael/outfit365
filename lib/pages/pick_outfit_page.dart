@@ -23,7 +23,13 @@ class PickOutfitPage extends StatelessWidget {
             )
           : null,
       appBar: AppBar(
-        title: Text('Creador de Outfit'),
+        title: Text(
+          'Creador de Outfit',
+          style: textTheme.titleSmall!.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
+        ),
         actions: [
           CircleAvatar(
             radius: 10,

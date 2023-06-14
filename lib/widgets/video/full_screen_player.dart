@@ -41,7 +41,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(
             child: Image.asset(
-              'assets/loadings/makeup_loading.gif,',
+              'assets/loadings/makeup_loading.gif',
             ),
           );
         }

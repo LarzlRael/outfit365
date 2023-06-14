@@ -16,21 +16,21 @@ class OutfitCreatorProvider with ChangeNotifier {
 
   SelectedOutfit state = SelectedOutfit(
     images: [],
-    currentImageColor: 1,
-    currentColor: Colors.orange,
+    currentImageColor: 0,
+    currentColor: Colors.black,
     currentCloth: "assets/3d/girl.glb",
   );
-  int currentImageColor = 1;
+  int currentImageColor = 0;
   get getCurrentImageColor => currentImageColor;
 
   updateCurrentImageColor() {
-    currentImageColor == colors.length
-        ? currentImageColor = 1
+    currentImageColor == colors.length - 1
+        ? currentImageColor = 0
         : currentImageColor++;
 
     state = state.copyWith(
-      currentColor: colors[currentImageColor - 1],
-      currentCloth: cloths[currentImageColor - 1],
+      currentColor: colors[currentImageColor],
+      currentCloth: cloths[currentImageColor],
     );
 
     notifyListeners();
