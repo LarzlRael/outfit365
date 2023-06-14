@@ -41,7 +41,7 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
         title: Text(widget.queryToSearch.title),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: Image.asset('assets/loadings/makeup_loading.gif'))
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: MasonryGridView.count(

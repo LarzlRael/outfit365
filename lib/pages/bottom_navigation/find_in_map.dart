@@ -14,6 +14,7 @@ class MapSampleState extends State<MapSample> {
   late GoogleMapController mapController;
 
   bool _isLoading = true;
+  bool _isFeaching = false;
   late MapsFinderProvider mapsFinderProvider;
 
   @override
@@ -64,8 +65,8 @@ class MapSampleState extends State<MapSample> {
         title: const Text('Buscar en el mapa'),
       ),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Center(
+              child: Image.asset('assets/loadings/makeup_loading.gif'),
             )
           : Stack(
               children: [
@@ -86,6 +87,14 @@ class MapSampleState extends State<MapSample> {
                     );
                   },
                 ),
+                _isFeaching
+                    ? Opacity(
+                        opacity: 0.6, // Valor de opacidad (0.0 a 1.0)
+                        child: Container(
+                          color: Colors.black, // Color oscuro
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
     );
@@ -172,6 +181,9 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future setMakers(MapsFinderProvider mapsFindProvider) async {
+    setState(() {
+      _isFeaching = true;
+    });
     final uploadJob =
         mapsFindProvider.getSelectedPlaces.map(getStoresAround).toList();
     final newImages = await Future.wait(uploadJob);
@@ -191,6 +203,9 @@ class MapSampleState extends State<MapSample> {
         );
       }).toSet(),
     );
+    setState(() {
+      _isFeaching = false;
+    });
     context.pop();
   }
 }
