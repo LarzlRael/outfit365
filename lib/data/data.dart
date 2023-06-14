@@ -25,8 +25,10 @@ List<Widget> categoryOptions(BuildContext context) {
           "https://i.pinimg.com/236x/8d/82/09/8d820948ef1a53703898177025641a99.jpg",
       onPressed: () {
         context.push('/show_details_page',
-            extra:
-                QueryAndTitle(queryToSearch: "women outfit", title: 'Citas'));
+            extra: QueryAndTitle(
+                queryToSearch: "women outfit",
+                title: 'Citas',
+                category: 'dates'));
       },
     ),
     CircleButton(
@@ -35,8 +37,10 @@ List<Widget> categoryOptions(BuildContext context) {
       text: 'Trabajo',
       onPressed: () {
         context.push('/show_details_page',
-            extra:
-                QueryAndTitle(queryToSearch: "mujer empleo", title: 'Trabajo'));
+            extra: QueryAndTitle(
+                queryToSearch: "mujer empleo",
+                title: 'Trabajo',
+                category: 'work'));
       },
     ),
     CircleButton(
@@ -45,8 +49,10 @@ List<Widget> categoryOptions(BuildContext context) {
       text: 'Reunion con amigos',
       onPressed: () {
         context.push('/show_details_page',
-            extra:
-                QueryAndTitle(queryToSearch: "women outfit", title: 'Reunion'));
+            extra: QueryAndTitle(
+                queryToSearch: "women outfit",
+                title: 'Reunion',
+                category: 'friend'));
       },
     ),
     CircleButton(
@@ -55,8 +61,10 @@ List<Widget> categoryOptions(BuildContext context) {
       text: 'Fiestas',
       onPressed: () {
         context.push('/show_details_page',
-            extra:
-                QueryAndTitle(queryToSearch: "party outfit", title: 'Fiestas'));
+            extra: QueryAndTitle(
+                queryToSearch: "party outfit",
+                title: 'Fiestas',
+                category: 'party'));
       },
     ),
     CircleButton(
@@ -66,8 +74,67 @@ List<Widget> categoryOptions(BuildContext context) {
       onPressed: () {
         context.push('/show_details_page',
             extra: QueryAndTitle(
-                queryToSearch: "sport outfit", title: 'Deportes'));
+              queryToSearch: "sport outfit",
+              title: 'Deportes',
+              category: 'sport',
+            ));
       },
     ),
   ];
 }
+
+class CategoryByImage {
+  final String categoryName;
+  final List<String> images;
+
+  CategoryByImage(this.categoryName, this.images);
+}
+
+List<CategoryByImage> categorias = [
+  CategoryByImage('work', [
+    'assets/outfits/work_1.jpeg',
+    'assets/outfits/work_2.jpeg',
+    'assets/outfits/work_3.jpeg',
+    'assets/outfits/work_4.jpeg',
+    'assets/outfits/work_5.jpeg',
+  ]),
+  CategoryByImage('dates', [
+    'assets/outfits/date_1.jpeg',
+    'assets/outfits/date_2.jpeg',
+    'assets/outfits/date_3.jpeg',
+    'assets/outfits/date_4.jpeg',
+    'assets/outfits/date_5.jpeg',
+  ]),
+  CategoryByImage('friend', [
+    'assets/outfits/friends_1.jpeg',
+    'assets/outfits/friends_2.jpeg',
+    'assets/outfits/friends_3.jpeg',
+    'assets/outfits/friends_4.jpeg',
+    'assets/outfits/friends_5.jpeg',
+  ]),
+  CategoryByImage('party', [
+    'assets/outfits/party_1.jpeg',
+    'assets/outfits/party_2.jpeg',
+    'assets/outfits/party_3.jpeg',
+    'assets/outfits/party_4.jpeg',
+    'assets/outfits/party_5.jpeg',
+    'assets/outfits/party_6.jpeg',
+  ]),
+  CategoryByImage('sport', [
+    'assets/outfits/sport_1.jpeg',
+    'assets/outfits/sport_2.jpeg',
+    'assets/outfits/sport_3.jpeg',
+    'assets/outfits/sport_4.jpeg',
+    'assets/outfits/sport_5.jpeg',
+    'assets/outfits/sport_6.jpeg',
+  ]),
+];
+
+List<String> obtenerImagenesPorCategoria(String category) {
+  CategoryByImage categoriaSeleccionada =
+      categorias.firstWhere((c) => c.categoryName == category);
+  return categoriaSeleccionada.images;
+}
+
+// Uso de la función obtenerImagenesPorCategoria
+/* List<String> imagenesDeCitas = obtenerImagenesPorCategoria('Citas'); */

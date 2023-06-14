@@ -3,9 +3,11 @@ part of './pages.dart';
 class QueryAndTitle {
   final String queryToSearch;
   final String title;
+  final String category;
   QueryAndTitle({
     required this.queryToSearch,
     required this.title,
+    required this.category,
   });
 }
 
@@ -24,7 +26,10 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
   @override
   void initState() {
     super.initState();
-    getImagesFromWeb(widget.queryToSearch.queryToSearch);
+    setState(() {
+      listImages = obtenerImagenesPorCategoria(widget.queryToSearch.category);
+      isLoading = false;
+    });
   }
 
   List<String> listImages = [];
@@ -34,12 +39,6 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.queryToSearch.title),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getImagesFromWeb('yellow flowers');
-        },
-        child: Icon(Icons.add),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -58,7 +57,7 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
                       child: FadeInImage(
                         placeholder:
                             AssetImage('assets/loadings/bottle_loader.gif'),
-                        image: NetworkImage(
+                        image: AssetImage(
                           listImages[index],
                         ),
                         fit: BoxFit.fill,
@@ -71,7 +70,7 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
     );
   }
 
-  Future<List<String>> getImagesFromWeb(String searchQuery) async {
+  /* Future<List<String>> getImagesFromWeb(String searchQuery) async {
     final pixabayApiKey = Enviroment.pixabayApiKey;
     final replaceQuery = searchQuery.replaceAll(' ', '+');
     String url =
@@ -90,5 +89,5 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
     });
 
     return models.hits.map((e) => e.webformatUrl).toList();
-  }
+  } */
 }

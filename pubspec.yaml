@@ -49,6 +49,7 @@ dependencies:
   geolocator: ^9.0.2
   http: ^0.13.4
   flutter_dotenv: ^5.1.0
+  video_player: ^2.6.1
 
 flutter_native_splash:
   color: '#ffffff'
@@ -103,6 +104,7 @@ flutter:
     - google_fonts/montserrat_alternates/
     - assets/store_icons/
     - assets/loadings/
+    - assets/outfits/
     - .env
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

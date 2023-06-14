@@ -22,6 +22,15 @@ class PickOutfitPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Creador de Outfit'),
         actions: [
+          Container(
+            width: 50.0,
+            height: 50.0,
+            decoration: BoxDecoration(
+              /* Change color by type */
+              color: outfitCreatorProvider.state.currentColor,
+              shape: BoxShape.circle,
+            ),
+          ),
           IconButton(
             onPressed: () async {
               final photoPath =
