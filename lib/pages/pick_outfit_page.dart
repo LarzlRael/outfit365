@@ -4,13 +4,16 @@ class PickOutfitPage extends StatelessWidget {
   const PickOutfitPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final outfitCreatorProvider = Provider.of<OutfitCreatorProvider>(context);
+    final outfitCreatorProvider = Provider.of<OutfitCreatorProvider>(
+      context,
+      listen: true,
+    );
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: outfitCreatorProvider.state.images.length >= 2
           ? FloatingActionButton.extended(
               onPressed: () {
-                /* context.push('/modelviewer'); */
+                outfitCreatorProvider.updateCurrentImageColor();
                 showLoaderDialog(context);
               },
               icon: Icon(Icons.check),
@@ -22,14 +25,9 @@ class PickOutfitPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Creador de Outfit'),
         actions: [
-          Container(
-            width: 50.0,
-            height: 50.0,
-            decoration: BoxDecoration(
-              /* Change color by type */
-              color: outfitCreatorProvider.state.currentColor,
-              shape: BoxShape.circle,
-            ),
+          CircleAvatar(
+            radius: 10,
+            backgroundColor: outfitCreatorProvider.state.currentColor,
           ),
           IconButton(
             onPressed: () async {

@@ -13,9 +13,10 @@ class _ModelViewPageState extends State<ModelViewPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final imagesSelected = context.read<OutfitCreatorProvider>().state.images;
-    final topPosition =
-        (imagesSelected.length == 1) ? size.height * 0.30 : size.height * 0.12;
+    final outfitCreatorProvider = context.read<OutfitCreatorProvider>().state;
+    final topPosition = (outfitCreatorProvider.images.length == 1)
+        ? size.height * 0.30
+        : size.height * 0.12;
 
     return Scaffold(
       body: SafeArea(
@@ -24,7 +25,7 @@ class _ModelViewPageState extends State<ModelViewPage> {
           width: double.infinity,
           child: Stack(
             children: [
-              ModelView(cloth: gerRandomCloth()),
+              ModelView(cloth: outfitCreatorProvider.currentCloth),
               Positioned(
                 top: 15,
                 left: 15,
@@ -46,8 +47,8 @@ class _ModelViewPageState extends State<ModelViewPage> {
                   height: size.height * 0.7,
                   child: SingleChildScrollView(
                     child: Column(
-                      children: imagesSelected.map((e) {
-                        var index = imagesSelected.indexOf(e);
+                      children: outfitCreatorProvider.images.map((e) {
+                        var index = outfitCreatorProvider.images.indexOf(e);
                         return GestureDetector(
                           onTap: () {
                             setState(() {
@@ -128,7 +129,7 @@ class ModelView extends StatelessWidget {
     required this.cloth,
   });
 
-  final String? cloth;
+  final String cloth;
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +137,7 @@ class ModelView extends StatelessWidget {
     return Container(
       height: size.height * 0.75,
       child: ModelViewer(
-/*         loading: Loading.lazy, */
-        src: cloth!,
+        src: cloth,
         alt: "A 3D model of an astronaut",
         ar: true,
         autoRotate: true,

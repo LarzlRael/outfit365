@@ -36,9 +36,7 @@ class MakeupCreator extends StatelessWidget {
         body: TabBarView(
           children: [
             // Contenido de la pestaña 1
-            Container(
-              color: Colors.red,
-            ),
+            VideoScrollabelView(),
             Container(
               color: Colors.orange,
             ),

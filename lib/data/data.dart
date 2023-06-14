@@ -1,21 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:outfilt/pages/pages.dart';
 
 import '../widgets/widgets.dart';
-
-final List<String> cloths = [
-  /* e */
-  "assets/girl.glb",
-];
-
-gerRandomCloth() {
-  final random = Random();
-  final index = random.nextInt(cloths.length);
-  return cloths[index];
-}
 
 List<Widget> categoryOptions(BuildContext context) {
   return [
@@ -138,3 +125,55 @@ List<String> obtenerImagenesPorCategoria(String category) {
 
 // Uso de la función obtenerImagenesPorCategoria
 /* List<String> imagenesDeCitas = obtenerImagenesPorCategoria('Citas'); */
+
+class VideoNCaption {
+  final String videoPath;
+  final String caption;
+
+  VideoNCaption(this.videoPath, this.caption);
+}
+
+List<VideoNCaption> videoList = [
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767070/makupe_network/rrea4g1cg9cjgjv6rriq.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767062/makupe_network/f1vsc1ndf125qtkpmq8u.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767061/makupe_network/xnuptypxem22stbl2zsg.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767052/makupe_network/glytwtszob9l2gvmkude.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767051/makupe_network/mx5tykwdgyykfbrv9iek.mp4',
+    'Maquillaje de ojos',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767036/makupe_network/amkclrm0gmajrlsyrcse.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767032/makupe_network/qlqwnagwxecb8zcwu9fp.mp4',
+    'Skincare',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767024/makupe_network/xumuse60ibzf3raol29s.mp4',
+    'Maquillaje de ojos',
+  ),
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767023/makupe_network/y7oda34uydoqnrrhwmjr.mp4',
+    'Sombreado',
+  ),
+];
+
+getRandomSuffleVideoList() {
+  List<VideoNCaption> videoListCopy = [...videoList];
+  videoListCopy.shuffle();
+  return videoListCopy;
+}

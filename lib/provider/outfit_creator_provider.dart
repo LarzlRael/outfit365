@@ -2,26 +2,35 @@ part of './providers.dart';
 
 class OutfitCreatorProvider with ChangeNotifier {
   final colors = [
+    Colors.black,
     Colors.orange,
     Colors.blue,
   ];
+
+  final List<String> cloths = [
+    /* e */
+    "assets/3d/girl.glb",
+    "assets/3d/suit.glb",
+    "assets/3d/animated_woman2.glb",
+  ];
+
   SelectedOutfit state = SelectedOutfit(
     images: [],
     currentImageColor: 1,
     currentColor: Colors.orange,
+    currentCloth: "assets/3d/girl.glb",
   );
+  int currentImageColor = 1;
+  get getCurrentImageColor => currentImageColor;
 
-  final limitImages = 3;
-  void updateCurrentImageColor() {
-    if (state.currentImageColor == limitImages) {
-      state = state.copyWith(
-        currentImageColor: 1,
-        currentColor: colors[state.currentImageColor - 1],
-      );
-      return;
-    }
+  updateCurrentImageColor() {
+    currentImageColor == colors.length
+        ? currentImageColor = 1
+        : currentImageColor++;
+
     state = state.copyWith(
-      currentImageColor: state.currentImageColor + 1,
+      currentColor: colors[currentImageColor - 1],
+      currentCloth: cloths[currentImageColor - 1],
     );
 
     notifyListeners();
@@ -46,20 +55,25 @@ class SelectedOutfit {
   List<String> images = [];
   int currentImageColor = 1;
   Color currentColor = Colors.orange;
+  String currentCloth = "assets/3d/girl.glb";
 
   SelectedOutfit({
     required this.images,
     required this.currentImageColor,
     required this.currentColor,
+    required this.currentCloth,
   });
 
-  SelectedOutfit copyWith(
-          {List<String>? images,
-          int? currentImageColor,
-          Color? currentColor}) =>
+  SelectedOutfit copyWith({
+    List<String>? images,
+    int? currentImageColor,
+    Color? currentColor,
+    String? currentCloth,
+  }) =>
       SelectedOutfit(
         images: images ?? this.images,
         currentImageColor: this.currentImageColor,
         currentColor: currentColor ?? this.currentColor,
+        currentCloth: currentCloth ?? this.currentCloth,
       );
 }

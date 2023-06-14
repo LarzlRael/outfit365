@@ -103,6 +103,7 @@ flutter:
     - assets/icons/
     - google_fonts/montserrat_alternates/
     - assets/store_icons/
+    - assets/3d/
     - assets/loadings/
     - assets/outfits/
     - .env

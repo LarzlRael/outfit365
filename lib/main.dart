@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => OutfitCreatorProvider()),
         ChangeNotifierProvider(create: (_) => MapsFinderProvider()),
+        ChangeNotifierProvider(create: (_) => DiscoverProvider()),
       ],
       child: MaterialApp.router(
         title: 'Material App',

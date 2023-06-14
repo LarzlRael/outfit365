@@ -15,13 +15,14 @@ class WelcomePage extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                'https://wallpaperaccess.com/full/8280047.jpg',
+                "https://img.freepik.com/premium-photo/standing-against-grey-background-young-adult-woman-formal-clothes-is-indoors-office_146671-56345.jpg?w=2000",
                 fit: BoxFit.cover,
                 height: double.infinity,
+                width: double.infinity,
                 /*  */
               ),
               Opacity(
-                opacity: 0.2, // Valor de opacidad (0.0 a 1.0)
+                opacity: 0.0, // Valor de opacidad (0.0 a 1.0)
                 child: Container(
                   color: Colors.black, // Color oscuro
                 ),

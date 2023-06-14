@@ -30,6 +30,7 @@ part 'welcome_page.dart';
 part 'pick_outfit_page.dart';
 part 'makeup_creator.dart';
 part 'show_details_page.dart';
+part 'video_scrollable.dart';
 
 /* Bottoms naviations items */
 part 'bottom_navigation/makeup_page.dart';
