@@ -134,45 +134,61 @@ class MapSampleState extends State<MapSample> {
           height: size.height * 0.35,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
             ),
           ),
-          child: Column(
+          child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: EdgeInsets.only(top: 5),
+                  width: 40,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              Column(
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      mapsFinderProvider.clearSelected();
-                    },
-                    child: const Text('Limpiar'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          mapsFinderProvider.clearSelected();
+                        },
+                        child: const Text('Limpiar'),
+                      ),
+                      Text(
+                        'Filtrar',
+                        style: textTheme.titleSmall,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Filtrar',
-                    style: textTheme.titleSmall,
+                  MultipleChoiceChip(
+                    options: places,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: context.pop,
+                        child: const Text('Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await setMakers(mapsFinderProvider);
+                        },
+                        child: const Text('Hecho'),
+                      ),
+                    ],
+                  )
                 ],
               ),
-              MultipleChoiceChip(
-                options: places,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: context.pop,
-                    child: const Text('Cancelar'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      await setMakers(mapsFinderProvider);
-                    },
-                    child: const Text('Hecho'),
-                  ),
-                ],
-              )
             ],
           ),
         );
