@@ -133,7 +133,7 @@ class VideoNCaption {
   VideoNCaption(this.videoPath, this.caption);
 }
 
-List<VideoNCaption> videoList = [
+List<VideoNCaption> skiscareVideos = [
   VideoNCaption(
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767070/makupe_network/rrea4g1cg9cjgjv6rriq.mp4',
     'Skincare',
@@ -151,10 +151,6 @@ List<VideoNCaption> videoList = [
     'Skincare',
   ),
   VideoNCaption(
-    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767051/makupe_network/mx5tykwdgyykfbrv9iek.mp4',
-    'Maquillaje de ojos',
-  ),
-  VideoNCaption(
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767036/makupe_network/amkclrm0gmajrlsyrcse.mp4',
     'Skincare',
   ),
@@ -162,18 +158,21 @@ List<VideoNCaption> videoList = [
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767032/makupe_network/qlqwnagwxecb8zcwu9fp.mp4',
     'Skincare',
   ),
+];
+
+List<VideoNCaption> eyesVideos = [
   VideoNCaption(
-    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767024/makupe_network/xumuse60ibzf3raol29s.mp4',
-    'Maquillaje de labios',
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767051/makupe_network/mx5tykwdgyykfbrv9iek.mp4',
+    'Maquillaje de ojos',
   ),
   VideoNCaption(
     'https://res.cloudinary.com/daij4l3is/video/upload/v1686767023/makupe_network/y7oda34uydoqnrrhwmjr.mp4',
     'Sombreado',
   ),
 ];
-
-getRandomSuffleVideoList() {
-  List<VideoNCaption> videoListCopy = [...videoList];
-  videoListCopy.shuffle();
-  return videoListCopy;
-}
+List<VideoNCaption> lipsVideos = [
+  VideoNCaption(
+    'https://res.cloudinary.com/daij4l3is/video/upload/v1686767024/makupe_network/xumuse60ibzf3raol29s.mp4',
+    'Maquillaje de labios',
+  ),
+];

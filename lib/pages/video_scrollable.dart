@@ -1,9 +1,12 @@
 part of './pages.dart';
 
 class VideoScrollabelView extends StatelessWidget {
-  final List<VideoNCaption> videos = getRandomSuffleVideoList();
+  final List<VideoNCaption> videos;
 
-  VideoScrollabelView({super.key});
+  VideoScrollabelView({
+    super.key,
+    required this.videos,
+  });
   @override
   Widget build(BuildContext context) {
     return PageView.builder(

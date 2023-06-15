@@ -13,7 +13,6 @@ class PickOutfitPage extends StatelessWidget {
       floatingActionButton: outfitCreatorProvider.state.images.length >= 2
           ? FloatingActionButton.extended(
               onPressed: () {
-                outfitCreatorProvider.updateCurrentImageColor();
                 showLoaderDialog(context);
               },
               icon: Icon(Icons.check),

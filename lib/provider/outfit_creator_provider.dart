@@ -3,22 +3,25 @@ part of './providers.dart';
 class OutfitCreatorProvider with ChangeNotifier {
   final colors = [
     Colors.black,
-    Colors.orange,
-    Colors.blue,
+    Colors.grey,
+    Colors.white,
+    Colors.red,
+    Colors.green,
   ];
 
   final List<String> cloths = [
-    /* e */
-    "assets/3d/girl.glb",
-    "assets/3d/suit.glb",
-    "assets/3d/animated_woman2.glb",
+    'assets/3d/black_suit.glb',
+    'assets/3d/gray_girl.glb',
+    'assets/3d/white_girl.glb',
+    'assets/3d/red_girl.glb',
+    'assets/3d/green_woman.glb',
   ];
 
   SelectedOutfit state = SelectedOutfit(
     images: [],
     currentImageColor: 0,
     currentColor: Colors.black,
-    currentCloth: "assets/3d/girl.glb",
+    currentCloth: "assets/3d/black_suit.glb",
   );
   int currentImageColor = 0;
   get getCurrentImageColor => currentImageColor;
@@ -54,8 +57,8 @@ class OutfitCreatorProvider with ChangeNotifier {
 class SelectedOutfit {
   List<String> images = [];
   int currentImageColor = 1;
-  Color currentColor = Colors.orange;
-  String currentCloth = "assets/3d/girl.glb";
+  Color currentColor = Colors.black;
+  String currentCloth = "assets/3d/black_suit.glb";
 
   SelectedOutfit({
     required this.images,
