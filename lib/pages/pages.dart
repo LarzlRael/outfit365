@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +21,6 @@ import '../constants/constant.dart';
 import '../constants/enviroments.dart';
 import '../data/data.dart';
 import '../models/markers_model.dart';
-import '../models/pixabay_model.dart';
 import '../provider/providers.dart';
 import '../services/services.dart';
 

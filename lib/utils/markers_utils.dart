@@ -23,3 +23,11 @@ Map<String, String> imageMap = {
   'lenceria': 'assets/store_icons/lingerie.png',
   'salon de belleza': 'assets/store_icons/beauty_salon.png',
 };
+
+Future<BitmapDescriptor> setCustomIcon(String searchQuery) async {
+  BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
+    ImageConfiguration(),
+    imageMap[searchQuery]!,
+  );
+  return markerbitmap;
+}

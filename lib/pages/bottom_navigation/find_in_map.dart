@@ -74,7 +74,6 @@ class MapSampleState extends State<MapSample> {
                   builder: (_, mapsFinderProvider, child) {
                     return GoogleMap(
                       mapType: MapType.normal,
-                      /* set marker */
                       markers: mapsFinderProvider.getCurrentMarkers,
                       initialCameraPosition: CameraPosition(
                         target: mapsFinderProvider.getCurrentPosition,
@@ -100,7 +99,9 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  Future<MarkerModelImage> getStoresAround(String searchQuery) async {
+  Future<List<Marker>> getStoresAround(String searchQuery) async {
+    final customIcon = await setCustomIcon(searchQuery);
+
     final mettersAround = 2000;
     final googleMapApiKey = Enviroment.googleMapsApiKey;
     String url =
@@ -110,10 +111,20 @@ class MapSampleState extends State<MapSample> {
     var response = await http.get(uri);
     final models = markerModelFromJson(response.body);
     /* return models.results; */
-    return MarkerModelImage(
-      icon: imageMap[searchQuery]!,
-      result: models.results,
-    );
+    return models.results.map((e) {
+      return Marker(
+        markerId: MarkerId(e.name),
+        position: LatLng(
+          e.geometry.location.lat,
+          e.geometry.location.lng,
+        ),
+        icon: customIcon,
+        infoWindow: InfoWindow(
+          title: e.name,
+          snippet: e.vicinity,
+        ),
+      );
+    }).toList();
   }
 
   showModalFilter() {
@@ -129,7 +140,7 @@ class MapSampleState extends State<MapSample> {
       builder: (BuildContext context) {
         final size = MediaQuery.of(context).size;
         final textTheme = Theme.of(context).textTheme;
-        final mapsFinderProvider = context.watch<MapsFinderProvider>();
+
         return Container(
           height: size.height * 0.35,
           decoration: BoxDecoration(
@@ -205,18 +216,8 @@ class MapSampleState extends State<MapSample> {
     final newImages = await Future.wait(uploadJob);
 
     mapsFindProvider.setMarkers(
-      newImages.expand((element) => element.result).map((e) {
-        return Marker(
-          markerId: MarkerId(e.name),
-          position: LatLng(
-            e.geometry.location.lat,
-            e.geometry.location.lng,
-          ),
-          infoWindow: InfoWindow(
-            title: e.name,
-            snippet: e.vicinity,
-          ),
-        );
+      newImages.expand((element) => element).map((e) {
+        return e;
       }).toSet(),
     );
     setState(() {
