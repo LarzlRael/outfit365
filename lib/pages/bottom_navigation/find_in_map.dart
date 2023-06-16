@@ -14,7 +14,7 @@ class MapSampleState extends State<MapSample> {
   late GoogleMapController mapController;
 
   bool _isLoading = true;
-  bool _isFeaching = false;
+
   late MapsFinderProvider mapsFinderProvider;
 
   @override
@@ -86,7 +86,7 @@ class MapSampleState extends State<MapSample> {
                     );
                   },
                 ),
-                _isFeaching
+                mapsFinderProvider.getIsFething
                     ? Opacity(
                         opacity: 0.6, // Valor de opacidad (0.0 a 1.0)
                         child: Container(
@@ -97,34 +97,6 @@ class MapSampleState extends State<MapSample> {
               ],
             ),
     );
-  }
-
-  Future<List<Marker>> getStoresAround(String searchQuery) async {
-    final customIcon = await setCustomIcon(searchQuery);
-
-    final mettersAround = 2000;
-    final googleMapApiKey = Enviroment.googleMapsApiKey;
-    String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${mapsFinderProvider.getCurrentPosition.latitude},${mapsFinderProvider.getCurrentPosition.longitude}&radius=${mettersAround}&keyword=${searchQuery}&key=${googleMapApiKey}";
-
-    final uri = Uri.parse(url);
-    var response = await http.get(uri);
-    final models = markerModelFromJson(response.body);
-    /* return models.results; */
-    return models.results.map((e) {
-      return Marker(
-        markerId: MarkerId(e.name),
-        position: LatLng(
-          e.geometry.location.lat,
-          e.geometry.location.lng,
-        ),
-        icon: customIcon,
-        infoWindow: InfoWindow(
-          title: e.name,
-          snippet: e.vicinity,
-        ),
-      );
-    }).toList();
   }
 
   showModalFilter() {
@@ -192,7 +164,7 @@ class MapSampleState extends State<MapSample> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await setMakers(mapsFinderProvider);
+                          await setMarkers(mapsFinderProvider);
                         },
                         child: const Text('Hecho'),
                       ),
@@ -207,22 +179,8 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  Future setMakers(MapsFinderProvider mapsFindProvider) async {
-    setState(() {
-      _isFeaching = true;
-    });
-    final uploadJob =
-        mapsFindProvider.getSelectedPlaces.map(getStoresAround).toList();
-    final newImages = await Future.wait(uploadJob);
-
-    mapsFindProvider.setMarkers(
-      newImages.expand((element) => element).map((e) {
-        return e;
-      }).toSet(),
-    );
-    setState(() {
-      _isFeaching = false;
-    });
+  Future setMarkers(MapsFinderProvider mapsFindProvider) async {
+    await mapsFindProvider.setFetchMarkers();
     context.pop();
   }
 }
