@@ -97,11 +97,11 @@ class MapsFinderProvider with ChangeNotifier {
     final uploadJob = getSelectedPlaces.map(getStoresAround).toList();
     final newImages = await Future.wait(uploadJob);
 
-    setIsFetching = false;
     setMarkers(
       newImages.expand((element) => element).map((e) {
         return e;
       }).toSet(),
     );
+    setIsFetching = false;
   }
 }
