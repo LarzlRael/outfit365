@@ -38,7 +38,15 @@ class _ShowDetailsPageState extends State<ShowDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.queryToSearch.title),
+        title: Hero(
+          tag: widget.queryToSearch.title,
+          child: Material(
+            child: Text(
+              widget.queryToSearch.title,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(),
+            ),
+          ),
+        ),
       ),
       body: isLoading
           ? Center(child: Image.asset('assets/loadings/makeup_loading.gif'))

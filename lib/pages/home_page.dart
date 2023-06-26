@@ -10,7 +10,28 @@ class HomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(appName),
+          title: Material(
+            child: Row(
+              children: [
+                Hero(
+                  tag: logoSrc,
+                  child: Image.asset(
+                    logoSrc,
+                    width: 60,
+                    height: 60,
+                  ),
+                ),
+                SizedBox(width: 5),
+                Hero(
+                  tag: appName,
+                  child: Text(
+                    appName,
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(),
+                  ),
+                ),
+              ],
+            ),
+          ),
           elevation: 0,
           bottom: TabBar(
             labelColor: Colors.white,

@@ -11,11 +11,14 @@ List<Widget> categoryOptions(BuildContext context) {
       imageSrc:
           "https://i.pinimg.com/236x/8d/82/09/8d820948ef1a53703898177025641a99.jpg",
       onPressed: () {
-        context.push('/show_details_page',
-            extra: QueryAndTitle(
-                queryToSearch: "women outfit",
-                title: 'Citas',
-                category: 'dates'));
+        context.push(
+          '/show_details_page',
+          extra: QueryAndTitle(
+            queryToSearch: "women outfit",
+            title: 'Citas',
+            category: 'dates',
+          ),
+        );
       },
     ),
     CircleButton(
@@ -23,11 +26,13 @@ List<Widget> categoryOptions(BuildContext context) {
           "https://i.pinimg.com/originals/9f/1e/3f/9f1e3f2e680def30285a04f85adbde25.jpg",
       text: 'Trabajo',
       onPressed: () {
-        context.push('/show_details_page',
-            extra: QueryAndTitle(
-                queryToSearch: "mujer empleo",
-                title: 'Trabajo',
-                category: 'work'));
+        context.push(
+          '/show_details_page',
+          extra: QueryAndTitle(
+              queryToSearch: "mujer empleo",
+              title: 'Trabajo',
+              category: 'work'),
+        );
       },
     ),
     CircleButton(

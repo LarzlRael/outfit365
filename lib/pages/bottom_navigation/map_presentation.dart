@@ -49,16 +49,33 @@ class MapPresentation extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ButtonIcon(
-                          textButton: 'Ir al mapa',
-                          icon: Icons.arrow_forward,
-                          rotation: 315,
-                          onPressed: () {
-                            context.push('/find_map');
-                          },
+                      child: BounceUp(
+                        child: SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ButtonIcon(
+                            textButton: 'Ir al mapa',
+                            icon: Icons.arrow_forward,
+                            rotation: 315,
+                            onPressed: () {
+                              final duration = Duration(milliseconds: 500);
+                              /* context.push('/find_map'); */
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  transitionDuration: duration,
+                                  reverseTransitionDuration:
+                                      duration, // <-- 2 seconds reversed animation
+                                  pageBuilder: (_, animation, __) {
+                                    return ScaleTransition(
+                                      scale: animation,
+                                      /* opacity: animation, */
+                                      child: MapSample(),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     )

@@ -55,15 +55,18 @@ class CircleButton extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: SimpleText(
-                  text: text,
-                  style: textTheme.titleSmall!.copyWith(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                child: Hero(
+                  tag: text,
+                  child: SimpleText(
+                    text: text,
+                    style: textTheme.titleSmall!.copyWith(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                   ),
-                  textAlign: TextAlign.center,
-                  padding: const EdgeInsets.symmetric(vertical: 5),
                 ),
               ),
             ],

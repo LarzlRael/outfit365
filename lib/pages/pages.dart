@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
+import '../animations/animations.dart';
 import '../constants/constant.dart';
 import '../constants/enviroments.dart';
 import '../data/data.dart';
@@ -36,3 +38,5 @@ part 'video_scrollable.dart';
 part 'bottom_navigation/makeup_page.dart';
 part 'bottom_navigation/find_in_map.dart';
 part 'bottom_navigation/map_presentation.dart';
+
+part 'animations/animation_square.dart';

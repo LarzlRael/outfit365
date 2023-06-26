@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outfilt/provider/providers.dart';
 import 'package:outfilt/router/app_router.dart';
 import 'package:provider/provider.dart';
+import 'constants/constant.dart';
 import 'constants/enviroments.dart';
 
 void main() async {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DiscoverProvider()),
       ],
       child: MaterialApp.router(
-        title: 'Material App',
+        title: appName,
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,
         theme: appTheme.getTheme(),
